@@ -1,0 +1,6 @@
+const menu=document.querySelector('.menu'),links=document.querySelector('.links');menu.addEventListener('click',()=>links.classList.toggle('open'));document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+const keys=['profile','school','food','sport'];
+function inputFor(key){return document.getElementById(key+'-input')}
+function showPhoto(key,data){const slot=document.querySelector('[data-photo="'+key+'"]');if(!slot)return;slot.classList.add('has-photo');slot.innerHTML='<img class="uploaded" src="'+data+'" alt="'+key+' photo">';}
+keys.forEach(key=>{document.querySelectorAll('[data-upload="'+key+'"]').forEach(btn=>btn.addEventListener('click',()=>inputFor(key).click()));inputFor(key).addEventListener('change',e=>{const file=e.target.files[0];if(!file||!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{showPhoto(key,reader.result);try{localStorage.setItem('maciboi-'+key,reader.result)}catch(err){}};reader.readAsDataURL(file)});const saved=localStorage.getItem('maciboi-'+key);if(saved)showPhoto(key,saved)});
+document.getElementById('contact-form').addEventListener('submit',e=>{e.preventDefault();document.getElementById('status').textContent='Thanks for your message! This practice form is ready to connect to a real email service.';e.target.reset()});
